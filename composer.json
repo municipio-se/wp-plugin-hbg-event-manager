@@ -38,12 +38,15 @@
         }
     },
     "require": {
-        "composer/installers": "~2.2",
-        "giggsey/libphonenumber-for-php": "^7.4"
+        "composer/installers": "~2.2"
     },
     "require-dev": {
         "10up/wp_mock": "dev-trunk#1.0.1",
+        "giggsey/libphonenumber-for-php": "^7.4",
         "php-mock/php-mock-mockery": "^1.4"
+    },
+    "suggest": {
+        "giggsey/libphonenumber-for-php": "Required by Helsingborg’s Event Manager plugin"
     },
     "config": {
         "allow-plugins": {
