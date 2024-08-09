@@ -16,7 +16,6 @@ class Filter
         add_action('init', array($this, 'redirectToApi'));
 
         //Filters
-        add_filter('rest_url_prefix', array($this, 'apiBasePrefix'), 5000, 1);
         add_filter('rest_prepare_event', array($this, 'removeResponseKeys'), 5000, 3);
         add_filter('rest_prepare_location', array($this, 'removeResponseKeys'), 5000, 3);
         add_filter('rest_prepare_organizer', array($this, 'removeResponseKeys'), 5000, 3);
@@ -46,15 +45,6 @@ class Filter
         }
 
         return $params;
-    }
-
-    /**
-     * Rename /wp-json/ to /json/.
-     * @return string Returning "json".
-     */
-    public function apiBasePrefix($prefix)
-    {
-        return "json";
     }
 
     /**

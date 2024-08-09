@@ -53,7 +53,7 @@ abstract class CustomPostType
     public function replacePermalink($return, $post_id, $new_title, $new_slug, $post)
     {
         $postType = $post->post_type;
-        $jsonUrl = home_url() . '/json/wp/v2/' . $postType . '/';
+        $jsonUrl = home_url() . '/wp-json/wp/v2/' . $postType . '/';
         $apiUrl = $jsonUrl . $post_id;
 
         return '<strong>' . __('API-url', 'event-manager') . ':</strong> <a href="' . $apiUrl . '" target="_blank">' . $apiUrl . '</a>';
