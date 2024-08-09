@@ -1,6 +1,6 @@
 {
-    "name": "helsingborg-stad/api-event-manager",
-    "description": "Manage events",
+    "name": "municipio-lts/wp-plugin-hbg-event-manager-2024",
+    "description": "Creates a api that may be used to manage events",
     "type": "wordpress-plugin",
     "license": "MIT",
     "authors": [
@@ -19,10 +19,35 @@
         {
             "name": "Tommy Moberg",
             "email": "tommy.moberg@hiq.se"
+        },
+        {
+            "name": "Whitespace",
+            "email": "code@whitespace.se"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "installer-name": "api-event-manager",
+        "installer-paths": {
+            "vendor/{$vendor}/{$name}/": [
+                "vendor:wpackagist-plugin",
+                "type:wordpress-plugin",
+                "type:wordpress-muplugin"
+            ]
+        }
+    },
     "require": {
-        "composer/installers": "~1.0",
+        "composer/installers": "~2.2",
         "giggsey/libphonenumber-for-php": "^7.4"
+    },
+    "require-dev": {
+        "10up/wp_mock": "dev-trunk#1.0.1",
+        "php-mock/php-mock-mockery": "^1.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
     }
 }
