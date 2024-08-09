@@ -40,6 +40,9 @@ Thumbs.db
 *.tar
 *.zip
 
+# Composer
+/vendor
+
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------
