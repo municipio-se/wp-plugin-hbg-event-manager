@@ -1,6 +1,6 @@
 # Helsingborg API Event Manager
 
-This plugin is an LTS version of the Helsingborg API Event Manager plugin. It is
+This plugin is an LTS version of the Helsingborg API Event Manager plugin v1.4.3. It is
 a WordPress plugin that turns your WordPress site into an event manager. It
 allows you to create and manage events on your site and then import them on
 other sites.
@@ -24,6 +24,6 @@ other sites.
    ```
 2. Install the package and its dependencies:
    ```bash
-   composer require municipio-lts/wp-plugin-hbg-event-manager-2024:dev-lts/v1.4.3 giggsey/libphonenumber-for-php:^7.4
+   composer require municipio-lts/wp-plugin-hbg-event-manager-2024:dev-main giggsey/libphonenumber-for-php:^7.4
    ```
 3. Activate the plugin in WordPress.
