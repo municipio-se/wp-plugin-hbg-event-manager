@@ -1,5 +1,5 @@
 {
-    "name": "municipio-lts/wp-plugin-hbg-event-manager-2024",
+    "name": "municipio/wp-plugin-hbg-event-manager",
     "description": "Creates a api that may be used to manage events",
     "type": "wordpress-plugin",
     "license": "MIT",
