@@ -2,7 +2,7 @@
     "name": "municipio/wp-plugin-hbg-event-manager",
     "description": "Creates a api that may be used to manage events",
     "type": "wordpress-plugin",
-    "license": "MIT",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Kristoffer Svanmark",
