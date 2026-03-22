@@ -1,6 +1,6 @@
 {
-  "name": "kulturkortet-import",
-  "version": "1.0.0",
+  "name": "wp-plugin-hbg-event-manager",
+  "version": "2025.12.0",
   "description": "Imports events from Mittkulturkort.se",
   "main": "",
   "scripts": {

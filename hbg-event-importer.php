@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Plugin Name:       Event Manager
- * Plugin URI:        http://github.com/helsingborg-stad/api-event-manager/
+ * Plugin Name:       HBG Event Manager
+ * Plugin URI:        http://github.com/municipio-se/wp-plugin-hbg-event-manager
  * Description:       Manage events locally, and import from XCAP & CBIS.
- * Version:           1.0.0
- * Author:            Kristoffer Svanmark, Sebastian Thulin, Tommy Morberg, Jonatan Hanson
- * Author URI:        http://www.helsingborg.se
- * License:           MIT
- * License URI:       https://opensource.org/licenses/MIT
+ * Version:           2025.12.0
+ * Author:            Kristoffer Svanmark, Sebastian Thulin, Tommy Morberg, Jonatan Hanson, Whitespace AB
+ * Author URI:        http://www.municipio.se
+ * License:           GPL 2.0
+ * License URI:       https://opensource.org/licenses/GPL-2.0
  * Text Domain:       event-manager
  * Domain Path:       /languages
  */
