@@ -48,6 +48,9 @@
     "suggest": {
         "giggsey/libphonenumber-for-php": "Required by Helsingborg’s Event Manager plugin"
     },
+    "scripts": {
+        "test": "php tests/run.php"
+    },
     "config": {
         "allow-plugins": {
             "composer/installers": true

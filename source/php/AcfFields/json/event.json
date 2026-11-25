@@ -1072,6 +1072,43 @@
                     "display_format": "Y-m-d H:i",
                     "return_format": "Y-m-d H:i",
                     "first_day": 1
+                },
+                {
+                    "key": "field_6926da9c0f821",
+                    "label": "Phone",
+                    "name": "retailer_phone",
+                    "type": "text",
+                    "instructions": "Phone number for the ticket retailer.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_6926da9c0f822",
+                    "label": "Email",
+                    "name": "retailer_email",
+                    "type": "email",
+                    "instructions": "Email address for the ticket retailer.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
                 }
             ]
         },
