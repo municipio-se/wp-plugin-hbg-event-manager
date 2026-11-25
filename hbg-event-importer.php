@@ -4,7 +4,7 @@
  * Plugin Name:       HBG Event Manager
  * Plugin URI:        http://github.com/municipio-se/wp-plugin-hbg-event-manager
  * Description:       Manage events locally, and import from XCAP & CBIS.
- * Version:           2025.12.0
+ * Version:           2025.12.1
  * Author:            Kristoffer Svanmark, Sebastian Thulin, Tommy Morberg, Jonatan Hanson, Whitespace AB
  * Author URI:        http://www.municipio.se
  * License:           GPL 2.0
