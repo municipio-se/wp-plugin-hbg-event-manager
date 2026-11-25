@@ -24,11 +24,51 @@ class EventFields extends Fields
             'wp/v2',
             '/' . $this->postType . '/' . 'time',
             array(
-                'methods' => \WP_REST_Server::READABLE,
-                'callback' => array($this, 'getEventsByTimestamp'),
-                'args' => $this->getCollectionParams(),
+                array(
+                    'methods' => \WP_REST_Server::READABLE,
+                    'callback' => array($this, 'getEventsByTimestamp'),
+                    'permission_callback' => '__return_true',
+                    'args' => $this->getCollectionParams(),
+                ),
+                'schema' => array($this, 'getTimeResponseSchema'),
             )
         );
+    }
+
+    public function getTimeResponseSchema()
+    {
+        $controller = new \WP_REST_Posts_Controller($this->postType);
+
+        return array(
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'events_by_time',
+            'type' => 'array',
+            'items' => $controller->get_public_item_schema(),
+        );
+    }
+
+    public function ticketRetailersGetCallback($object, $fieldName, $request)
+    {
+        $retailers = $this->objectGetCallBack($object, $fieldName, $request);
+
+        if (is_array($retailers)) {
+            foreach ($retailers as $index => $retailer) {
+                if (!is_array($retailer)) {
+                    continue;
+                }
+
+                foreach (array('retailer_phone', 'retailer_email') as $contactField) {
+                    $value = $retailer[$contactField] ?? null;
+                    if (!is_string($value) || $value === '') {
+                        unset($retailer[$contactField]);
+                    }
+                }
+
+                $retailers[$index] = $retailer;
+            }
+        }
+
+        return $retailers;
     }
 
     /**
@@ -1054,12 +1094,23 @@ class EventFields extends Fields
             $this->postType,
             'additional_ticket_retailers',
             array(
-                'get_callback' => array($this, 'objectGetCallBack'),
+                'get_callback' => array($this, 'ticketRetailersGetCallback'),
                 'update_callback' => array($this, 'objectUpdateCallBack'),
                 'schema' => array(
                     'description' => 'Field containing additional ticket retailers.',
-                    'type' => 'object',
+                    'type' => array('array', 'null'),
                     'context' => array('view', 'edit'),
+                    'items' => array(
+                        'type' => 'object',
+                        'properties' => array(
+                            'retailer_name' => array('type' => array('string', 'null')),
+                            'booking_url' => array('type' => array('string', 'null')),
+                            'ticket_release_date' => array('type' => array('string', 'null')),
+                            'ticket_stop_date' => array('type' => array('string', 'null')),
+                            'retailer_phone' => array('type' => 'string'),
+                            'retailer_email' => array('type' => 'string'),
+                        ),
+                    ),
                 ),
             )
         );
