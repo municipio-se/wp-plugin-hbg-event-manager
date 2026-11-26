@@ -411,7 +411,7 @@ class EventFields extends Fields
         $query .= "
                     WHERE $postTable.post_type = %s
                     AND $postTable.post_status = %s
-                    AND ($db_occasions.timestamp_start BETWEEN %d AND %d OR $db_occasions.timestamp_end BETWEEN %d AND %d)
+                    AND $db_occasions.timestamp_end >= %d AND $db_occasions.timestamp_start < %d
                     AND postmeta1.meta_key = 'internal_event' AND postmeta1.meta_value = {$parameters['internal']} ";
         $query .= ($searchString) ? "AND (($wpdb->posts.post_title LIKE %s) OR ($wpdb->posts.post_content LIKE %s)) " : '';
         $query .= (!empty($locationIds)) ? "AND (postmeta2.meta_key = 'location' AND postmeta2.meta_value IN ($locationIds)) " : "";
@@ -425,8 +425,6 @@ class EventFields extends Fields
         $placeholders = [
             $this->postType,
             'publish',
-            $parameters['start'],
-            $parameters['end'],
             $parameters['start'],
             $parameters['end']
         ];
@@ -595,13 +593,13 @@ class EventFields extends Fields
         $data = array();
 
         // Get upcoming occasions
-        $timestamp = strtotime("midnight now") - 1;
+        $timestamp = isset($parameters['start']) ? (int) $parameters['start'] : strtotime("midnight now");
         $query = "
         SELECT * FROM {$db_occasions}
         WHERE event = {$id}
-        AND timestamp_end > {$timestamp}
+        AND timestamp_end >= {$timestamp}
         ";
-        $query .= ($endParam) ? " AND timestamp_end < {$endParam}" : "";
+        $query .= ($endParam) ? $wpdb->prepare(" AND timestamp_start < %d", $endParam) : "";
         $query_results = $wpdb->get_results($query, OBJECT);
 
         // Get and save occasions from post meta, to get complete data
@@ -612,7 +610,7 @@ class EventFields extends Fields
                 if (
                     strtotime($value['end_date']) < $timestamp || ($endParam && strtotime(
                         $value['start_date']
-                    ) > $endParam)
+                    ) >= $endParam)
                 ) {
                     continue;
                 }
@@ -633,6 +631,7 @@ class EventFields extends Fields
             }
         }
 
+        $explicitOccasions = $data;
         // Save occasions from recurrence rule exceptions that are cancelled or rescheduled
         $recurringRules = self::getFieldGetMetaData($object, 'rcr_rules', $request);
         if (is_array($recurringRules) && !empty($recurringRules)) {
@@ -644,7 +643,8 @@ class EventFields extends Fields
                 ) {
                     foreach ($rule['rcr_exceptions'] as $key => $exception) {
                         $endTimestamp = strtotime($exception['rcr_exc_date'] . ' ' . $rule['rcr_end_time']);
-                        if ($exception['status_rcr_exc'] != 'default' && $endTimestamp > $timestamp) {
+                        if ($exception['status_rcr_exc'] != 'default' && $endTimestamp >= $timestamp &&
+                            (!$endParam || strtotime($exception['rcr_exc_date'] . ' ' . $rule['rcr_start_time']) < $endParam)) {
                             $startTime = !empty($rule['rcr_start_time']) ? new \DateTime(
                                 $exception['rcr_exc_date'] . ' ' . $rule['rcr_start_time']
                             ) : null;
@@ -692,6 +692,21 @@ class EventFields extends Fields
                 $occasion[ 'booking_link' ] = ($value->booking_link) ? $value->booking_link : null;
             }
             $data[] = $occasion;
+        }
+        // Import calendars display an explicit interval once. Preserve all
+        // explicit performances and standalone recurrences for those calendars.
+        if ($request->get_param('prefer_explicit_occasions') === '1' && $explicitOccasions) {
+            $generated = array_slice($data, count($explicitOccasions));
+            $data = $explicitOccasions;
+            foreach ($generated as $occasion) {
+                foreach ($explicitOccasions as $explicit) {
+                    if ($occasion['start_date'] >= $explicit['start_date'] &&
+                        $occasion['end_date'] <= $explicit['end_date']) {
+                        continue 2;
+                    }
+                }
+                $data[] = $occasion;
+            }
         }
         $temp = array();
         $keys = array();
