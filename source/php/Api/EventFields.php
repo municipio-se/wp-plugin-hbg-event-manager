@@ -700,8 +700,15 @@ class EventFields extends Fields
             $data = $explicitOccasions;
             foreach ($generated as $occasion) {
                 foreach ($explicitOccasions as $explicit) {
+                    $end = $explicit['end_date'];
+                    // Editors enter date-only spans as two midnights. The named
+                    // final day also covers generated performances on that day.
+                    if (substr($explicit['start_date'], 0, 10) < substr($end, 0, 10) &&
+                        substr($explicit['start_date'], 11, 5) === '00:00' && substr($end, 11, 5) === '00:00') {
+                        $end = substr($end, 0, 10) . ' 23:59:59';
+                    }
                     if ($occasion['start_date'] >= $explicit['start_date'] &&
-                        $occasion['end_date'] <= $explicit['end_date']) {
+                        $occasion['end_date'] <= $end) {
                         continue 2;
                     }
                 }

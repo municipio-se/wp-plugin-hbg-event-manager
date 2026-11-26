@@ -1,6 +1,6 @@
 {
   "name": "wp-plugin-hbg-event-manager",
-  "version": "2025.12.2",
+  "version": "2025.12.3",
   "description": "Imports events from Mittkulturkort.se",
   "main": "",
   "scripts": {
